@@ -18,40 +18,36 @@
         margin-top:0px;
         margin-bottom:10px;
     }
-  form {
-        width:800px;
-        background-color: #EDECE8;
-        padding:50px;
-        margin:auto;      
-        box-shadow: 2px 2px 4px 2px;
-    }
+
     #form_body {
-        Width:700px;
+        Width:800px;
+        background-color: #EDECE8;
         margin:auto;
         font-weight:bold;
         font-size:15px;
+        box-shadow: 2px 2px 4px 2px;
+        padding: 20px;
     }
+    fieldset {
+      width: 600px;
+      margin: auto;
+      margin-bottom:20px;
+      
+    }
+ 
 
   </style>
 </head>
 <body>
     <h1 id='head'>Bookservice</h1>
-    <form method='POST' action='it385g_project_response.php'>
-    <div id=form_body>
-      <h3>Select and search stuff</h3>
-      <div>
-          <label>Category</label>
-          <input type='text' name='category' placeholder="Searchfield"/>
-      </div>
-      <div>
-          <label>Title</label>
-          <input type='text' name='title' placeholder="Searchfield" />
-      </div>
-      
     
+    <div id=form_body>
+      <fieldset>
+      <legend>Select</legend>
+      
 <?php
  
-      $xml = file_get_contents('https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/books/?id=ALL');
+      $xml = file_get_contents('https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/category/?categorysearch=ALL');
       $dom = new DomDocument;
       $dom->preserveWhiteSpace = FALSE;
       $dom->loadXML($xml);
@@ -61,17 +57,32 @@
       $dom2->preserveWhiteSpace = FALSE;
       $dom2->loadXML($xml);
 
-   /*    echo "<label> ID </label>";
-      echo "<select name='ID'>";
-      echo "<option value=''>---"; */
-  /*     $books= $dom->getElementsByTagName('BOOK');
-      foreach ($books as $book){
-        echo "<option value='".$book->getAttribute("ID")."'>";
-        echo $book->getAttribute("ID");       
-        echo "</option>";
-      } */
-      echo "<div>";
+      $xml = file_get_contents('https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/authors?role=ALL');
+      $dom3 = new DomDocument;
+      $dom3->preserveWhiteSpace = FALSE;
+      $dom3->loadXML($xml);
+
+
+     /*  echo "<form method='POST' action='it385g_project_categoryresponse.php'>";
+      echo "<label> Category </label>";
+      echo "<select name='category'>";
+      echo "<option value=''>---";
+      $categories= $dom->getElementsByTagName('CATEGORY');
+      foreach ($categories as $category){
+        foreach ($category->childNodes as $child){
+        $text=trim($child->nodeValue);
+        if($text!=""){
+          echo "<option value=$text>";
+            echo $text;
+            echo "</option>";
+        }
+        }
+      }
+      echo "<input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>";
       echo "</select>";
+      echo "</form>"; */
+
+      echo "<form method='POST' action='it385g_author_response.php'>";
       echo "<label> Author </label>";
       echo "<select name='author'>";
       echo "<option value=''>---";
@@ -87,19 +98,49 @@
           }
           
         }       
-        echo "<option value='$last'>";
+        echo "<option value='FIRSTNAME=$first&LASTNAME=$last'>";
         echo $first;
         echo " "; 
         echo $last;    
         echo "</option>";
       }
+      echo "<input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>";
       echo "</select>";
-      echo "</div>";
-?>
+      echo "</form>";
+
+      echo "<form method='POST' action='it385g_role_response.php'>";
+      echo "<h4 style='margin:5px;'>Or</h4>";
+      echo "<label> Author Role </label>";
+      echo "<select name='author_role'>";
+      echo "<option value=''>---";
+      $roles= $dom3->getElementsByTagName('AUTHOR');
+
+      foreach ($roles as $role){
+        echo "<option value='".$role->getAttribute("ROLE")."'>";
+        echo $role->getAttribute("ROLE");       
+        echo "</option>";
+      }
+      echo "<input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>";
+      echo "</select>";
+      echo "</form>";
+      echo "</fieldset>";
       
-      <input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>
+      
+?>
+    <div>
+          <fieldset>
+          <legend>Or search by</legend>
+          <form method='POST' action='it385g_title_response.php'>
+          <label>Booktitle</label>
+          <input type='text' name='title' placeholder="Searchfield"/>
+          <input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>
+          </form>  
+          </fieldset>
+      </div>
+
+      
     </div>
-    </form>
+    
     
 </body>
 </html>

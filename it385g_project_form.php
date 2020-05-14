@@ -6,7 +6,7 @@
   <title>Bookservice</title>
   <style>
      #head {
-        background-color: #EDECE8;
+        background-color: #fdf3ea;
         color:darkslategrey;
         width:100%;
         font-size: 200%;
@@ -21,7 +21,7 @@
 
     #form_body {
         Width:800px;
-        background-color: #EDECE8;
+        background-color: #fdf3ea;
         margin:auto;
         font-weight:bold;
         font-size:15px;

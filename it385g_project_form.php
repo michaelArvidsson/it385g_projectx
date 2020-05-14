@@ -63,7 +63,7 @@
       $dom3->loadXML($xml);
 
 
-     /*  echo "<form method='POST' action='it385g_project_categoryresponse.php'>";
+      echo "<form method='POST' action='it385g_project_categoryresponse.php'>";
       echo "<label> Category </label>";
       echo "<select name='category'>";
       echo "<option value=''>---";
@@ -80,8 +80,8 @@
       }
       echo "<input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>";
       echo "</select>";
-      echo "</form>"; */
-
+      echo "</form>";
+      echo "<h4 style='margin:5px;'>Or</h4>";
       echo "<form method='POST' action='it385g_author_response.php'>";
       echo "<label> Author </label>";
       echo "<select name='author'>";
@@ -98,7 +98,7 @@
           }
           
         }       
-        echo "<option value='FIRSTNAME=$first&LASTNAME=$last'>";
+        echo "<option value='firstname=$first&lastname=$last'>";
         echo $first;
         echo " "; 
         echo $last;    
@@ -108,31 +108,23 @@
       echo "</select>";
       echo "</form>";
 
-      echo "<form method='POST' action='it385g_role_response.php'>";
-      echo "<h4 style='margin:5px;'>Or</h4>";
-      echo "<label> Author Role </label>";
-      echo "<select name='author_role'>";
-      echo "<option value=''>---";
-      $roles= $dom3->getElementsByTagName('AUTHOR');
-
-      foreach ($roles as $role){
-        echo "<option value='".$role->getAttribute("ROLE")."'>";
-        echo $role->getAttribute("ROLE");       
-        echo "</option>";
-      }
-      echo "<input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>";
-      echo "</select>";
-      echo "</form>";
+    
       echo "</fieldset>";
       
       
 ?>
     <div>
           <fieldset>
-          <legend>Or search by</legend>
+          <legend>search by</legend>
           <form method='POST' action='it385g_title_response.php'>
           <label>Booktitle</label>
-          <input type='text' name='title' placeholder="Searchfield"/>
+          <input type='text' name='title' placeholder=" Searchfield"/>
+          <input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>
+          </form>  
+          <h4 style='margin:5px;'>Or</h4>
+          <form method='POST' action='it385g_role_response.php'>
+          <label>Author role</label>
+          <input type='text' name='author_role' placeholder=" Author/Editor/Translator"/>
           <input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>
           </form>  
           </fieldset>

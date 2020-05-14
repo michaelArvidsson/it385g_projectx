@@ -10,30 +10,32 @@
 <?php
 
     //Check POST if empty show nothing
-    if(isset($_POST['author'])){
-      $authors=$_POST['author'];
+    if(isset($_POST['category'])){
+      $category=$_POST['category'];
     }else
-      $authors="ALL";
+      $titles="ALL";
 
     echo "<pre>";
     print_r($_POST);
     echo "</pre>";
 
     echo "<pre>";
-    print_r($authors);
+    print_r($category);
     echo "</pre>";
 
-    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/authors/?".$authors);
+    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/books/?titlesearch=".$titles);
     $dom = new DomDocument;
     $dom->preserveWhiteSpace = FALSE;
     $dom->loadXML($xml);
 
-    $authors = $dom->getElementsByTagName('AUTHOR');
+    $books = $dom->getElementsByTagName('BOOK');
 
-    echo "<th>Firstname</th><th>Lastname</th><th>Born</th><th>Deceased</th><th>Image</th><th>About</th><th>Signature</th>";
-    foreach ($authors as $author){
+    echo "<th>Booktitle</th><th>ID</th><th>Author(s)</th><th>Category</th><th>Link</th><th>Preface</th>";
+    foreach ($books as $book){
       echo "<tr>";
-      foreach ($author->childNodes as $child){
+      echo "<td>".$book->getAttribute("TITLE")."</td>";
+      echo "<td>".$book->getAttribute("ID")."</td>";
+      foreach ($book->childNodes as $child){
         $text=trim($child->nodeValue);
         if($text!=""){
           echo "<td>".$text."</td>";

@@ -10,93 +10,66 @@
 <?php
 
     //Check POST if empty show nothing
-    if(isset($_POST['category'])){
-      $categories=$_POST['category'];
+    if(isset($_POST['author_role'])){
+      $author_role=$_POST['author_role'];
     }else
-      $categories="ALL";
-    
-    if(isset($_POST['author'])){
-      $authors=$_POST['author'];
-    }else
-      $authors="ALL";
-
-    if(isset($_POST['title'])){
-      $titles=$_POST['title'];
-    }else
-      $titles="ALL";
+    $author_role="ALL";
 
     echo "<pre>";
     print_r($_POST);
     echo "</pre>";
 
-    echo "<pre>";
-    print_r($categories);
-    echo "</pre>";
 
-    echo "<pre>";
-    print_r($authors);
-    echo "</pre>";
-
-    echo "<pre>";
-    print_r($titles);
-    echo "</pre>";
-
-    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/category/?categorysearch=".$categories);
+    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/authors/?role=".$author_role);
     $dom = new DomDocument;
     $dom->preserveWhiteSpace = FALSE;
     $dom->loadXML($xml);
 
-    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/books/?titlesearch=".$titles);
-    $dom2 = new DomDocument;
-    $dom2->preserveWhiteSpace = FALSE;
-    $dom2->loadXML($xml);
-
-    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/authors/?lastname=".$authors);
-    $dom3 = new DomDocument;
-    $dom3->preserveWhiteSpace = FALSE;
-    $dom3->loadXML($xml);
-
-    /* echo "<pre>";
-    print_r($dom2);
-    echo "</pre>"; */
-
-    $cat= $dom->getElementsByTagName('CATEGORY');
-    foreach ($cat as $category){
-      echo "<tr>";
-      foreach ($category->childNodes as $child){
+    
+    $fname = $dom->getElementsByTagName('FIRSTNAME');
+    $lname = $dom->getElementsByTagName('LASTNAME');
+    $img = $dom->getElementsByTagName('IMGURL');
+    $authors = $dom->getElementsByTagName('AUTHOR');
+      echo "<th>Firstname</th><th>Lastname</th><th>Born</th><th>Deceased</th><th>Image</th><th>About</th><th>Signature</th>";
+      foreach ($authors as $author){
+        echo "<tr>";
+        foreach ($author->childNodes as $child){
           $text=trim($child->nodeValue);
           if($text!=""){
-              echo "<td>".$text."</td>";
+            echo "<td>".$text."</td>";
           }
-      }      
-    
-      echo "</tr>";  
-    }
- /*    $tit = $dom3->getElementsByTagName('TITLE');
-    foreach ($tit as $title){
-      echo "<tr>";
-      foreach ($title->childNodes as $child){
+        }  
+        echo "</tr>";
+      }
+      
+      /* echo "<td>";
+      $lname = $dom->getElementsByTagName('LASTNAME');
+      foreach ($lname as $lastname){ 
+        foreach ($lastname->childNodes as $child){
           $text=trim($child->nodeValue);
           if($text!=""){
-              echo "<td>".$text."</td>";
+              echo "<td>".$text."</td>"; 
           }
-      }      
-    
-      echo "</tr>";  
-    }
-
-    $name = $dom3->getElementsByTagName('FIRSTNAME');
-    foreach ($name as $firstname){
-      echo "<tr>";
-      foreach ($firstname->childNodes as $child){
-          $text=trim($child->nodeValue);
-          if($text!=""){
-              echo "<td>".$text."</td>";
+        }
+        
+      }
+           */
+        /* foreach ($authors as $author){
+          foreach ($author->childNodes as $child){
+            echo "<tr>";
+            $attributes = $child->attributes;
+            foreach ($child->childNodes as $text){
+              if($text->tagName == "FIRSTNAME"){
+                foreach($text->childNodes as $fname){
+                  echo "<h3>";
+                  echo $fname->nodeValue;
+                  echo "</h3>";
+                }
+              }
+            }
           }
-      }      
-    
-      echo "</tr>";  
-    } */
+        }     */
+      
 ?>
 </table>
 </body>

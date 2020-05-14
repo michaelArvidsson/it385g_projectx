@@ -10,16 +10,6 @@
 <?php
 
     //Check POST if empty show nothing
-    if(isset($_POST['category'])){
-      $categories=$_POST['category'];
-    }else
-      $categories="ALL";
-    
-    if(isset($_POST['author'])){
-      $authors=$_POST['author'];
-    }else
-      $authors="ALL";
-
     if(isset($_POST['title'])){
       $titles=$_POST['title'];
     }else
@@ -30,47 +20,28 @@
     echo "</pre>";
 
     echo "<pre>";
-    print_r($categories);
-    echo "</pre>";
-
-    echo "<pre>";
-    print_r($authors);
-    echo "</pre>";
-
-    echo "<pre>";
     print_r($titles);
     echo "</pre>";
 
-    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/category/?categorysearch=".$categories);
+    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/books/?titlesearch=".$titles);
     $dom = new DomDocument;
     $dom->preserveWhiteSpace = FALSE;
     $dom->loadXML($xml);
 
-    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/books/?titlesearch=".$titles);
-    $dom2 = new DomDocument;
-    $dom2->preserveWhiteSpace = FALSE;
-    $dom2->loadXML($xml);
+    $books = $dom->getElementsByTagName('BOOK');
 
-    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/authors/?lastname=".$authors);
-    $dom3 = new DomDocument;
-    $dom3->preserveWhiteSpace = FALSE;
-    $dom3->loadXML($xml);
-
-    /* echo "<pre>";
-    print_r($dom2);
-    echo "</pre>"; */
-
-    $cat= $dom->getElementsByTagName('CATEGORY');
-    foreach ($cat as $category){
+    echo "<th>Booktitle</th><th>ID</th><th>Author(s)</th><th>Category</th><th>Link</th><th>Preface</th>";
+    foreach ($books as $book){
       echo "<tr>";
-      foreach ($category->childNodes as $child){
-          $text=trim($child->nodeValue);
-          if($text!=""){
-              echo "<td>".$text."</td>";
-          }
-      }      
-    
-      echo "</tr>";  
+      echo "<td>".$book->getAttribute("TITLE")."</td>";
+      echo "<td>".$book->getAttribute("ID")."</td>";
+      foreach ($book->childNodes as $child){
+        $text=trim($child->nodeValue);
+        if($text!=""){
+          echo "<td>".$text."</td>";
+        }
+      }  
+      echo "</tr>";
     }
  /*    $tit = $dom3->getElementsByTagName('TITLE');
     foreach ($tit as $title){

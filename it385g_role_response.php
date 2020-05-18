@@ -16,7 +16,7 @@
         text-shadow: 2px 2px rgba(0, 0, 0, 0.1);
         padding:10px;
         margin-top:0px;
-        margin-bottom:10px;
+        margin-bottom:30px;
     }
     #form_body {
         Width:800px;
@@ -56,14 +56,11 @@
     $dom->preserveWhiteSpace = FALSE;
     $dom->loadXML($xml);
 
-    
-    $fname = $dom->getElementsByTagName('FIRSTNAME');
-    $lname = $dom->getElementsByTagName('LASTNAME');
-    $img = $dom->getElementsByTagName('IMGURL');
     $authors = $dom->getElementsByTagName('AUTHOR');
+    
       echo "<div id=form_body>";
       echo "<h3 style='width:500px; margin:auto; margin-bottom:10px; text-align:center;'>";
-      echo "You searched for <span style='background-color:white; margin-left:5px; padding:5px; padding-left:15px; padding-right:15px; border:1px solid black;'>$author_role</span></h3>";
+      echo "You searched for <span style='background-color:white; margin-left:5px; padding:5px; padding-left:15px; padding-right:15px; border:1px solid black;'>$author_roles</span></h3>";
       echo "<form method='POST' action='it385g_role_response.php'>";
       echo "<div style='width:480px; margin:auto;'>";
       echo "<label>Search another role </label>";
@@ -109,36 +106,7 @@
           }
         }  
         echo "</tr>";
-      }
-      
-      /* echo "<td>";
-      $lname = $dom->getElementsByTagName('LASTNAME');
-      foreach ($lname as $lastname){ 
-        foreach ($lastname->childNodes as $child){
-          $text=trim($child->nodeValue);
-          if($text!=""){
-              echo "<td>".$text."</td>"; 
-          }
-        }
-        
-      }
-           */
-        /* foreach ($authors as $author){
-          foreach ($author->childNodes as $child){
-            echo "<tr>";
-            $attributes = $child->attributes;
-            foreach ($child->childNodes as $text){
-              if($text->tagName == "FIRSTNAME"){
-                foreach($text->childNodes as $fname){
-                  echo "<h3>";
-                  echo $fname->nodeValue;
-                  echo "</h3>";
-                }
-              }
-            }
-          }
-        }     */
-      
+      }     
 ?>
 </table>
 </body>

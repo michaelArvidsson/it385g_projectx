@@ -80,6 +80,7 @@
       }
       echo "<input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>";
       echo "</select>";
+      
       echo "</form>";
       echo "<h4 style='margin:5px;'>Or</h4>";
       echo "<form method='POST' action='it385g_author_response.php'>";
@@ -95,8 +96,7 @@
           }else if($child->nodeName=="LASTNAME"){
             $last = $child->nodeValue;
                    
-          }
-          
+          }         
         }       
         echo "<option value='firstname=$first&lastname=$last'>";
         echo $first;
@@ -104,14 +104,12 @@
         echo $last;    
         echo "</option>";
       }
+
       echo "<input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>";
       echo "</select>";
       echo "</form>";
-
-    
       echo "</fieldset>";
-      
-      
+          
 ?>
     <div>
           <fieldset>

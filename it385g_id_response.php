@@ -24,15 +24,16 @@
         margin-bottom:10px;
     }
     #form_body {
-        Width:800px;
+        Width:400px;
         background-color: #f8f9f5;
         margin:auto;
         font-weight:bold;
         font-size:15px;
         box-shadow: 2px 2px 4px 2px;
-        padding: 20px;
+        padding: 10px;
         margin-bottom:30px;
-        border-radius: 3px;
+        margin-top:30px;
+        border-radius:5px;
     }
     table {
       background-color: #f8f9f5;
@@ -40,6 +41,7 @@
       margin:auto;
       box-shadow: 2px 2px 4px 2px;
       border-radius: 3px;
+      margin-top:30px;
     }
     td {
       padding: 0px;
@@ -55,25 +57,23 @@
     h3, h4, span, a {
       padding-left:5px;
     }
-  /*   #box {
-      background-color: yellow;
+    #submit_button {
+      margin: auto;
+      padding: 3px;
+      width: 70px;
+      border-radius:5px;
     }
-    #box1 {
-      background-color: pink;
-    }
-    #box2 {
-      background-color: green;
-    } */
+
   </style>
 </head>
 <body>
-<h1 id='head'>Bookservice / Booktitles</h1>
+<h1 id='head'>Bookservice / Book details</h1>
 <table border='1'>
 <?php
 
     //Check POST if empty show nothing
-    if(isset($_POST['title'])){
-      $titles=$_POST['title'];
+    if(isset($_GET['id'])){
+      $titles=$_GET['id'];
     }else
       $titles="";
 
@@ -85,7 +85,7 @@
     print_r($titles);
     echo "</pre>"; */
 
-    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/books/?titlesearch=".$titles);
+    $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/books/?id=".$titles);
     $dom = new DomDocument;
     $dom->preserveWhiteSpace = FALSE;
     $dom->loadXML($xml);
@@ -93,17 +93,7 @@
     $books = $dom->getElementsByTagName('BOOK');
 
     /* echo "<th>Booktitle</th><th>ID</th><th>Author(s)</th><th>Category</th><th>Link</th><th>Preface</th>"; */
-    echo "<div id=form_body>";
-    echo "<h3 style='width:500px; margin:auto; margin-bottom:10px; text-align:center;'>";
-    echo "You searched for booktitles containing <span style='background-color:white; margin-left:5px; padding:5px; padding-left:15px; padding-right:15px; border:1px solid black;'>$titles</span></h3>";
-    echo "<form method='POST' action='it385g_title_response.php'>";
-    echo "<div style='width:480px; margin:auto;'>";
-    echo "<label>Search another title </label>";
-    echo "<input style='width:225px;' type='text' name='title' placeholder=' Search title'/>";
-    echo "<input style='margin:10px;' type='submit' name='submitbutton' value='Show result'>";
-    echo "</div>";
-    echo "</form>";
-    echo "</div>";
+    
     foreach ($books as $book){
       echo "<tr>";
       echo "<td style='width:400px;'><div>";
@@ -160,5 +150,18 @@
     echo "</tr>";     
 ?>
 </table>
+<div id=form_body>
+    <h3 style='width:300px; margin:auto; margin-bottom:10px; text-align:center;'>click on the button to get back to the previous page</h3>
+    <div style='width:80px; margin:auto;'>
+    <button id="submit_button" onclick="goBack()">Back</button>
+
+      <script>
+          function goBack() {
+            window.history.back();
+          }
+      </script>
+    </div>
+    
+  </div>";
 </body>
 </html>

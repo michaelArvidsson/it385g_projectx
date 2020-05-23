@@ -6,7 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Arapey&display=swap" rel="stylesheet">
   <title>Bookservice</title>
   <style>
-     body{
+      body{
       background-color:#00693e;
        font-family: 'Arapey', serif;
      }
@@ -24,27 +24,33 @@
         margin-bottom:40px;
     }
     #form_body {
-        Width:500px;
+        Width:400px;
         background-color: #f8f9f5;
         margin:auto;
         font-weight:bold;
         font-size:15px;
         box-shadow: 2px 2px 4px 2px;
-        padding: 20px;
+        padding: 10px;
         margin-bottom:30px;
-        border-radius: 3px;
+        margin-top:30px;
+        border-radius:5px;
     }
     table {
       background-color: #f8f9f5;
       border-collapse: collapse;
       margin:auto;
       box-shadow: 2px 2px 4px 2px;
-      border-radius: 3px;
-      margin-bottom:30px;
+      border-radius: 5px;
     }
     td {
       padding: 0px;
       margin: 0px;
+    }
+    #submit_button {
+      margin: auto;
+      padding: 3px;
+      width: 70px;
+      border-radius:5px;
     }
   </style>
 </head>
@@ -54,15 +60,13 @@
 <?php
 
     //Check POST if empty show nothing
-    if(isset($_POST['author'])){
-      $namn = explode("&", $_POST['author']);
-        $firstname=  $namn[0];
-        $lastname =  $namn[1]; 
+    if(isset($_GET['firstname'])){
+      $firstname=$_GET['firstname'];
     }
-
-  /*   echo "<pre>";
-    print_r($_POST);
-    echo "</pre>"; */
+    if(isset($_GET['lastname'])){
+      $lastname=$_GET['lastname'];
+    }else
+      $writer="ALL";
 
     $url="https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/authors/?firstname=".urlencode($firstname)."&lastname=".urlencode($lastname);
     $xml = file_get_contents($url);
@@ -70,47 +74,8 @@
     $dom->preserveWhiteSpace = FALSE;
     $dom->loadXML($xml);
 
-    $xml = file_get_contents('https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/authors?role=Author');
-    $dom2 = new DomDocument;
-    $dom2->preserveWhiteSpace = FALSE;
-    $dom2->loadXML($xml);
-
     $authors = $dom->getElementsByTagName('AUTHOR');
-    $authors2 = $dom2->getElementsByTagName('AUTHOR');
 
-    /* echo "<pre>";
-    print_r($url);
-    echo "</pre>"; */
-
-      echo "<div id=form_body>";
-      echo "</form>";
-      echo "<div style='width:480px; margin:auto;'>";
-      echo "<form method='POST' action='it385g_author_response.php'>";
-      echo "<label> Select another author </label>";
-      echo "<select name='author'>";
-      echo "<option value=''>---";
-      $authors2 = $dom2->getElementsByTagName('AUTHOR');
-      foreach ($authors2 as $author){
-        foreach ($author->childNodes as $child){
-          if($child->nodeName=="FIRSTNAME"){
-            $first = $child->nodeValue;
-              
-          }else if($child->nodeName=="LASTNAME"){
-            $last = $child->nodeValue;
-                   
-          }         
-        }       
-        echo "<option value='$first&$last'>";
-        echo $first;
-        echo " "; 
-        echo $last;    
-        echo "</option>";
-      }
-      echo "<input style='margin:10px; border-radius:5px;' type='submit' name='submitbutton' value='Show result'>";
-      echo "</select>";
-      echo "</div>";
-      echo "</form>";
-      echo "</div>";
     echo "<th>Author</th><th>Lived</th><th>Image</th><th>About</th><th>Signature</th>";
     foreach ($authors as $author){
       echo "<tr>";
@@ -122,7 +87,7 @@
         }else if ($child->nodeName=='LASTNAME'){
           echo $child->nodeValue;
           echo "<br>";
-          echo "<span>Role:".$author->getAttribute("ROLE")."</span>";
+          echo "<span>Role: ".$author->getAttribute("ROLE")."</span>";
           echo "</div></td>";
         }else if ($child->nodeName=='BIRTHYEAR'){
           $birth=$child->nodeValue;
@@ -171,6 +136,16 @@
     echo "</div>";
     echo "</div>";
 ?>
+<div id=form_body>
+    <h3 style='width:300px; margin:auto; margin-bottom:10px; text-align:center;'>click on the button to get back to the previous page</h3>
+    <div style='width:80px; margin:auto;'>
+    <button id="submit_button" onclick="goBack()">Back</button>
 
+      <script>
+          function goBack() {
+            window.history.back();
+          }
+      </script>
+    </div>
 </body>
 </html>

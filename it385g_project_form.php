@@ -3,10 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Arapey&display=swap" rel="stylesheet">
   <title>Bookservice</title>
   <style>
+     body{
+      background-color:#00693e;
+       font-family: 'Arapey', serif;
+     }
+     form {
+       margin-bottom:5px;
+     }
      #head {
-        background-color: #fdf3ea;
+        background-color: #f8f9f5;
         color:darkslategrey;
         width:100%;
         font-size: 200%;
@@ -16,26 +24,26 @@
         text-shadow: 2px 2px rgba(0, 0, 0, 0.1);
         padding:10px;
         margin-top:0px;
-        margin-bottom:10px;
+        margin-bottom:40px;
     }
 
     #form_body {
-        Width:800px;
-        background-color: #fdf3ea;
+        Width:550px;
+        background-color: #f8f9f5;
         margin:auto;
         font-weight:bold;
         font-size:15px;
         box-shadow: 2px 2px 4px 2px;
         padding: 20px;
+        border-radius: 5px;
     }
     fieldset {
-      width: 600px;
+      width: 460px;
       margin: auto;
       margin-bottom:20px;
-      
+      border-radius: 3px;
+      border-radius: 5px;
     }
- 
-
   </style>
 </head>
 <body>
@@ -63,9 +71,9 @@
       $dom3->loadXML($xml);
 
 
-      echo "<form method='POST' action='it385g_project_categoryresponse.php'>";
+      echo "<form method='POST' action='it385g_category_response.php'>";
       echo "<label> Category </label>";
-      echo "<select name='category'>";
+      echo "<div style='margin-top:10px; margin-bottom:10px;'><select name='category' style='width:370px;'>";
       echo "<option value=''>---";
       $categories= $dom->getElementsByTagName('CATEGORY');
       foreach ($categories as $category){
@@ -78,14 +86,13 @@
         }
         }
       }
-      echo "<input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>";
-      echo "</select>";
-      
+      echo "<input style='margin-left:20px; border-radius:5px;' type='submit' name='submitbutton' value='Submit'>";
+      echo "</select></div>";
       echo "</form>";
-      echo "<h4 style='margin:5px;'>Or</h4>";
+
       echo "<form method='POST' action='it385g_author_response.php'>";
-      echo "<label> Author </label>";
-      echo "<select name='author'>";
+      echo "<label> Or Author </label>";
+      echo "<div style='margin-top:10px;'><select name='author' style='width:370px;'>";
       echo "<option value=''>---";
       $authors= $dom2->getElementsByTagName('AUTHOR');
       foreach ($authors as $author){
@@ -98,15 +105,14 @@
                    
           }         
         }       
-        echo "<option value='firstname=$first&lastname=$last'>";
+        echo "<option value='$first&$last'>";
         echo $first;
         echo " "; 
         echo $last;    
         echo "</option>";
       }
-
-      echo "<input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>";
-      echo "</select>";
+      echo "<input style='margin-left:20px; border-radius:5px;' type='submit' name='submitbutton' value='Submit'>";
+      echo "</select></div>";
       echo "</form>";
       echo "</fieldset>";
           
@@ -116,14 +122,19 @@
           <legend>search by</legend>
           <form method='POST' action='it385g_title_response.php'>
           <label>Booktitle</label>
-          <input type='text' name='title' placeholder=" Searchfield"/>
-          <input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>
+          <div>
+          <input style='width:370px;'type='text' name='title' placeholder=" Search booktitle"/>
+          
+          
+          <input style='margin:10px; border-radius:5px;' type='submit' name='submitbutton' value='Search'>
+          </div>
           </form>  
-          <h4 style='margin:5px;'>Or</h4>
           <form method='POST' action='it385g_role_response.php'>
-          <label>Author role</label>
-          <input type='text' name='author_role' placeholder=" Author/Editor/Translator"/>
-          <input style='margin:10px'; type='submit' name='submitbutton' value='Show result'>
+          <label>Or Author role</label>
+          <div>
+          <input style='width:370px;' type='text' name='author_role' placeholder=" Author/Editor/Translator/Contributor/Ilustrator"/>
+          <input style='margin:10px; border-radius:5px;' type='submit' name='submitbutton' value='Search'>
+          </div>
           </form>  
           </fieldset>
       </div>

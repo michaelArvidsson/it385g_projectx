@@ -4,14 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Arapey&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>Bookservice</title>
   <style>
     body{
       background-color:#00693e;
-       font-family: 'Arapey', serif;
+      font-family: 'Arapey', serif;
+      margin: 0px; 
      }
      #head {
-        background-color: #f8f9f5;
         color:darkslategrey;
         width:100%;
         font-size: 200%;
@@ -21,7 +22,8 @@
         text-shadow: 2px 2px rgba(0, 0, 0, 0.1);
         padding:10px;
         margin-top:0px;
-        margin-bottom:10px;
+        margin-bottom:0px;
+        margin-left:5px;
     }
     #form_body {
         Width:400px;
@@ -54,7 +56,7 @@
     div {
       padding:5px;
     }
-    h3, h4, span, a {
+    h3, h4, span {
       padding-left:5px;
     }
     #submit_button {
@@ -62,28 +64,44 @@
       padding: 3px;
       width: 70px;
       border-radius:5px;
+      transition: 0.2s;
     }
-
+    #nav {
+      background-color: #f8f9f5;
+      position: relative;
+      width: 100%;
+      padding:0px;
+      transition: 0.2s;
+    }
+    .nav_button {
+      color:darkslategrey;
+      margin:5px;
+      position:absolute;
+      top: 10px;
+      padding:2px;
+      text-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+      transition: 0.2s;
+    }
+    .nav_button:hover {
+      box-shadow: 0px 0px 2px 2px;
+      border-radius:5px;
+    }
   </style>
 </head>
 <body>
-<h1 id='head'>Bookservice / Book details</h1>
+<div style="padding-left: 5px;" id="nav">
+  <span class="nav_button"><a href="it385g_project_form.php" target="_self"><i style=color:darkslategrey; class="fa fa-home fa-2x"></i></a></span>
+    <div>
+      <h1 id='head'>Bookservice / Book details</h1>
+    </div>
+  </div>
 <table border='1'>
 <?php
 
-    //Check POST if empty show nothing
     if(isset($_GET['id'])){
       $titles=$_GET['id'];
     }else
       $titles="";
-
-    /* echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
-
-    echo "<pre>";
-    print_r($titles);
-    echo "</pre>"; */
 
     $xml = file_get_contents("https://wwwlab.iit.his.se/gush/XMLAPI/bookservice/books/?id=".$titles);
     $dom = new DomDocument;
@@ -91,8 +109,6 @@
     $dom->loadXML($xml);
 
     $books = $dom->getElementsByTagName('BOOK');
-
-    /* echo "<th>Booktitle</th><th>ID</th><th>Author(s)</th><th>Category</th><th>Link</th><th>Preface</th>"; */
     
     foreach ($books as $book){
       echo "<tr>";
@@ -101,9 +117,7 @@
       echo "<h4>".$book->getAttribute("TITLE")."</h4>";
       echo "<div>";
       echo "<span><b>ID: </b>".$book->getAttribute("ID")."</span>";
-      
-      
-      
+            
         foreach ($book->childNodes as $child){
           if($child->nodeName=='AUTHORS'){
             echo "<h4 style='margin-top:5px;margin-bottom:5px;'>Author: </h4>";
@@ -111,8 +125,7 @@
               echo "<span>$grandchild->nodeValue</span>";
               echo "<br>";
             }
-            echo "</div>";  
-            
+            echo "</div>";         
           }else if($child->nodeName=='CATEGORIES'){
             echo "<div id='box'>";
             echo "<h4 style='margin-top:5px;margin-bottom:5px;'>Category: </h4>";
@@ -120,7 +133,7 @@
               echo "<span>$grandchild->nodeValue</span>";
               echo "<br>";
             }
-          echo "</div>";  
+            echo "</div>";  
           }else if ($child->nodeName=='URL'){
             echo "<div id='box1'>";
             echo "<h4 style='margin-top:5px;margin-bottom:5px;'>Link to e-book: </h4>";
@@ -130,7 +143,7 @@
         }   
           echo "</div>"; 
           echo "</td>";
-           echo "<td style='vertical-align: top;'>";
+          echo "<td style='vertical-align: top;'>";
           
           if ($child->nodeName=='PREFACE'){
             echo "<div id='box2'style='width:600px;'>";
